@@ -1,0 +1,544 @@
+
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YouTube</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #fff;
+    color: #0f0f0f;
+}
+
+header {
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.logo span {
+    background: #ff0033;
+    color: white;
+    padding: 5px 9px;
+    border-radius: 9px;
+    font-size: 18px;
+}
+
+.search {
+    display: flex;
+    width: 45%;
+    max-width: 600px;
+}
+
+.search input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    border-radius: 25px 0 0 25px;
+    font-size: 16px;
+    outline: none;
+}
+
+.search button {
+    padding: 0 22px;
+    border: 1px solid #ccc;
+    border-radius: 0 25px 25px 0;
+    background: #f5f5f5;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.profile {
+    background: #167d8d;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.layout {
+    display: flex;
+}
+
+.sidebar {
+    width: 220px;
+    padding: 10px;
+    position: fixed;
+    top: 65px;
+    bottom: 0;
+    overflow-y: auto;
+    background: white;
+}
+
+.sidebar a {
+    display: block;
+    padding: 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #111;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #eee;
+    font-weight: bold;
+}
+
+main {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+    padding: 15px 25px;
+}
+
+.categories {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    margin-bottom: 25px;
+    padding-bottom: 5px;
+}
+
+.categories button {
+    border: none;
+    padding: 10px 16px;
+    background: #f2f2f2;
+    border-radius: 8px;
+    white-space: nowrap;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.categories button:hover,
+.categories button.active {
+    background: #111;
+    color: white;
+}
+
+.videos {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 30px 18px;
+}
+
+.video {
+    cursor: pointer;
+    min-width: 0;
+    transition: transform .2s;
+}
+
+.video:hover {
+    transform: translateY(-3px);
+}
+
+.thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    background: #eee;
+}
+
+.info {
+    display: flex;
+    gap: 12px;
+    padding-top: 12px;
+}
+
+.channel {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    border-radius: 50%;
+    background: #7255bd;
+    color: white;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+.title {
+    font-size: 16px;
+    line-height: 1.4;
+    margin-bottom: 7px;
+}
+
+.details {
+    color: #606060;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.section-title {
+    margin: 35px 0 20px;
+    font-size: 23px;
+}
+
+.shorts {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.short img {
+    width: 100%;
+    aspect-ratio: 9 / 14;
+    object-fit: cover;
+    border-radius: 12px;
+    background: #eee;
+}
+
+.short h4 {
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+.short p {
+    color: #606060;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+footer {
+    text-align: center;
+    padding: 35px 10px;
+    color: #777;
+    font-size: 13px;
+}
+
+@media (max-width: 1100px) {
+    .videos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .shorts {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .sidebar {
+        width: 180px;
+    }
+
+    main {
+        margin-left: 180px;
+        width: calc(100% - 180px);
+        padding: 15px;
+    }
+}
+
+@media (max-width: 650px) {
+    header {
+        padding: 0 10px;
+        gap: 10px;
+        height: 58px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .search {
+        width: auto;
+        flex: 1;
+    }
+
+    .search input {
+        min-width: 0;
+        padding: 10px;
+    }
+
+    .search button {
+        padding: 0 12px;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    main {
+        margin-left: 0;
+        width: 100%;
+        padding: 12px;
+    }
+
+    .videos {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .shorts {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .categories {
+        gap: 8px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo"><span>▶</span> YouTube</div>
+
+    <div class="search">
+        <input id="searchInput" placeholder="Qidirish">
+        <button onclick="searchVideos()">⌕</button>
+    </div>
+
+    <div class="profile">I</div>
+</header>
+
+<div class="layout">
+
+<aside class="sidebar">
+    <a class="active" onclick="showAll()">🏠 Bosh sahifa</a>
+    <a onclick="showShorts()">▶ Shorts</a>
+    <a onclick="message('Obunalar bo‘limi')">📺 Obunalar</a>
+    <hr style="margin:12px 5px;border:0;border-top:1px solid #ddd">
+    <a onclick="message('Tarix bo‘limi')">🕘 Tarix</a>
+    <a onclick="message('Pleylistlar bo‘limi')">📂 Pleylistlar</a>
+    <a onclick="message('Videolaringiz bo‘limi')">🎬 Videolaringiz</a>
+    <a onclick="message('Keyinroq ko‘rish bo‘limi')">⏰ Keyinroq ko‘rish</a>
+    <a onclick="message('Yoqtirgan videolar bo‘limi')">👍 Yoqtirgan videolar</a>
+    <hr style="margin:12px 5px;border:0;border-top:1px solid #ddd">
+    <a onclick="message('Sozlamalar')">⚙️ Sozlamalar</a>
+</aside>
+
+<main>
+
+<div class="categories">
+    <button class="active" onclick="filterCategory('Hammasi',this)">Hammasi</button>
+    <button onclick="filterCategory('Musiqa',this)">Musiqa</button>
+    <button onclick="filterCategory('Dasturlash',this)">Dasturlash</button>
+    <button onclick="filterCategory('O‘yinlar',this)">O‘yinlar</button>
+    <button onclick="filterCategory('Sayohat',this)">Sayohat</button>
+    <button onclick="filterCategory('Texnologiya',this)">Texnologiya</button>
+    <button onclick="filterCategory('Sport',this)">Sport</button>
+</div>
+
+<section class="videos" id="videos">
+
+<article class="video" data-category="O‘yinlar">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#38834b">G</div>
+        <div>
+            <h3 class="title">Eng zo‘r kompyuter o‘yinlari! 🎮</h3>
+            <p class="details">Game World<br>850 ming marta ko‘rildi · 2 kun oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Dasturlash">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#3768a8">C</div>
+        <div>
+            <h3 class="title">HTML va CSS ni noldan o‘rganamiz</h3>
+            <p class="details">Code Academy<br>120 ming marta ko‘rildi · 3 kun oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Sayohat">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#299b87">T</div>
+        <div>
+            <h3 class="title">Dunyodagi eng chiroyli joylar 🌍</h3>
+            <p class="details">Travel Life<br>1,5 mln marta ko‘rildi · 1 hafta oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Musiqa">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#c27d35">M</div>
+        <div>
+            <h3 class="title">Eng mashhur musiqalar to‘plami 🎵</h3>
+            <p class="details">Music Zone<br>3 mln marta ko‘rildi · 5 kun oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Texnologiya">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#8755c8">T</div>
+        <div>
+            <h3 class="title">Yangi smartfonlar haqida to‘liq ma’lumot</h3>
+            <p class="details">Tech Review<br>430 ming marta ko‘rildi · 4 kun oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Sport">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#32804d">S</div>
+        <div>
+            <h3 class="title">Futbol tarixidagi eng ajoyib gollar ⚽</h3>
+            <p class="details">Sport TV<br>920 ming marta ko‘rildi · 1 kun oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Musiqa">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#d94d70">L</div>
+        <div>
+            <h3 class="title">Jonli ijro va ajoyib qo‘shiqlar</h3>
+            <p class="details">Live Music<br>250 ming marta ko‘rildi · 6 kun oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Dasturlash">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#357b91">W</div>
+        <div>
+            <h3 class="title">Qanday qilib birinchi saytingizni yaratish mumkin?</h3>
+            <p class="details">Web Darslar<br>76 ming marta ko‘rildi · 2 hafta oldin</p>
+        </div>
+    </div>
+</article>
+
+<article class="video" data-category="Sayohat">
+    <img class="thumbnail" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80">
+    <div class="info">
+        <div class="channel" style="background:#5a8b57">N</div>
+        <div>
+            <h3 class="title">Tabiat qo‘ynida unutilmas sayohat</h3>
+            <p class="details">Nature World<br>540 ming marta ko‘rildi · 3 hafta oldin</p>
+        </div>
+    </div>
+</article>
+
+</section>
+
+<h2 class="section-title" id="shortsTitle">▶ Shorts</h2>
+
+<section class="shorts" id="shorts">
+
+<div class="short">
+<img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?auto=format&fit=crop&w=400&q=80">
+<h4>Bu texnologiyani ko‘rganmisiz? 😲</h4>
+<p>1,2 mln marta ko‘rildi</p>
+</div>
+
+<div class="short">
+<img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=400&q=80">
+<h4>Tez va mazali nonushta 🍳</h4>
+<p>850 ming marta ko‘rildi</p>
+</div>
+
+<div class="short">
+<img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=400&q=80">
+<h4>Tabiatning go‘zal manzarasi</h4>
+<p>2 mln marta ko‘rildi</p>
+</div>
+
+<div class="short">
+<img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=400&q=80">
+<h4>Kulgili mushuk 😺</h4>
+<p>3,1 mln marta ko‘rildi</p>
+</div>
+
+<div class="short">
+<img src="https://images.unsplash.com/photo-1517466787929-bc90951d0974?auto=format&fit=crop&w=400&q=80">
+<h4>Futbol fintlari ⚽</h4>
+<p>670 ming marta ko‘rildi</p>
+</div>
+
+</section>
+
+</main>
+</div>
+
+<footer>Bu YouTube uslubidagi o‘quv loyihasi.</footer>
+
+<script>
+function filterCategory(category, button) {
+    document.querySelectorAll('.categories button').forEach(b => b.classList.remove('active'));
+    button.classList.add('active');
+
+    document.querySelectorAll('.video').forEach(video => {
+        video.style.display =
+            category === 'Hammasi' || video.dataset.category === category
+            ? '' : 'none';
+    });
+}
+
+function searchVideos() {
+    const query = document.getElementById('searchInput').value.toLowerCase().trim();
+    let count = 0;
+
+    document.querySelectorAll('.video').forEach(video => {
+        const matches = video.innerText.toLowerCase().includes(query);
+        video.style.display = matches ? '' : 'none';
+        if (matches) count++;
+    });
+
+    document.getElementById('shortsTitle').style.display = query ? 'none' : '';
+    document.getElementById('shorts').style.display = query ? 'none' : '';
+
+    if (query && count === 0) {
+        alert('Hech narsa topilmadi. Boshqa so‘z yozib ko‘ring.');
+    }
+}
+
+document.getElementById('searchInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') searchVideos();
+});
+
+function showAll() {
+    document.querySelectorAll('.video').forEach(video => video.style.display = '');
+    document.getElementById('shortsTitle').style.display = '';
+    document.getElementById('shorts').style.display = '';
+    document.getElementById('searchInput').value = '';
+}
+
+function showShorts() {
+    document.getElementById('shortsTitle').scrollIntoView({behavior:'smooth'});
+}
+
+function message(text) {
+    alert(text + ' — bu faqat dizayn namunasi.');
+}
+</script>
+
+</body>
+</html>
